@@ -16,32 +16,86 @@
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             padding: 20px;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url('ludicimg.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            opacity: 0.08;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        body.landing-active {
+            overflow: hidden;
+            padding: 0;
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            background: white;
+            background: rgba(255, 255, 255, 0.82);
             border-radius: 15px;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 1;
             overflow: hidden;
         }
 
         .header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            position: relative;
+            background-image: url('ludicimg.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
             color: white;
-            padding: 40px 20px;
+            min-height: 320px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
             text-align: center;
+            padding: 60px 40px;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                160deg,
+                rgba(30, 20, 60, 0.55) 0%,
+                rgba(102, 126, 234, 0.50) 50%,
+                rgba(118, 75, 162, 0.65) 100%
+            );
+            z-index: 0;
+        }
+
+        .header h1,
+        .header p {
+            position: relative;
+            z-index: 1;
         }
 
         .header h1 {
-            font-size: 2.5em;
-            margin-bottom: 10px;
+            font-size: clamp(1.8em, 4vw, 3em);
+            margin-bottom: 12px;
+            text-shadow: 0 3px 18px rgba(0,0,0,0.6);
+            letter-spacing: 1px;
         }
 
         .header p {
-            font-size: 1.1em;
-            opacity: 0.9;
+            font-size: clamp(0.95em, 2vw, 1.2em);
+            opacity: 0.95;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+            max-width: 680px;
         }
 
         .tabs {
@@ -302,13 +356,111 @@
                 grid-template-columns: 1fr;
             }
         }
+
+        /* ===== LANDING PAGE - VIDEO BANNER ===== */
+        #landingPage {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 9999;
+            overflow: hidden;
+            transition: opacity 1s ease, visibility 1s ease;
+        }
+
+        #landingPage.fade-out {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        #landingVideo {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            object-fit: cover;
+        }
+
+        .landing-overlay {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            padding-bottom: 80px;
+        }
+
+        .landing-overlay h1 {
+            color: #fff;
+            font-size: clamp(2rem, 6vw, 4.5rem);
+            font-weight: 800;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.5);
+            margin-bottom: 12px;
+            letter-spacing: 1px;
+        }
+
+        .landing-overlay p {
+            color: rgba(255,255,255,0.9);
+            font-size: clamp(1rem, 2.5vw, 1.4rem);
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+            margin-bottom: 40px;
+            max-width: 600px;
+        }
+
+        .enter-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #fff;
+            border: 3px solid rgba(255,255,255,0.7);
+            padding: 18px 60px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s, background 0.3s;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+        }
+
+        .enter-btn:hover {
+            transform: scale(1.07);
+            box-shadow: 0 12px 40px rgba(102,126,234,0.7);
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+        }
+
+        .landing-badge {
+            position: absolute;
+            bottom: 22px;
+            right: 28px;
+            color: rgba(255,255,255,0.55);
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+        }
     </style>
 </head>
-<body>
+<body class="landing-active">
+
+    <!-- ===== PANTALLA DE INICIO - VIDEO BANNER ===== -->
+    <div id="landingPage">
+        <video id="landingVideo" autoplay loop playsinline>
+                <source src="ludicmp4.mp4" type="video/mp4">
+            </video>
+            <div class="landing-overlay">
+                <button class="enter-btn" onclick="enterSite()">&#9654;&nbsp; Comenzar</button>
+            </div>
+        <span class="landing-badge">Ortiz Estefanis © 2026</span>
+    </div>
+
     <div class="container">
         <div class="header">
             <h1>📚 Guía de Tecnologías para Programadores</h1>
-            <p>Aprende sobre las herramientas más importantes en el desarrollo modern</p>
+            <p>Aprende sobre las herramientas más importantes en el desarrollo moderno</p>
         </div>
 
         <div class="tabs">
@@ -3920,6 +4072,19 @@ app.<span class="function">listen</span>(3000, () =&gt; console.<span class="fun
         function demoMongodb() {
             const demo = document.getElementById('mongodbDemo');
             demo.classList.toggle('active');
+        }
+
+        // ===== LANDING PAGE =====
+        function enterSite() {
+            const landing = document.getElementById('landingPage');
+            landing.classList.add('fade-out');
+            document.body.classList.remove('landing-active');
+            setTimeout(() => {
+                landing.style.display = 'none';
+                const video = document.getElementById('landingVideo');
+                video.pause();
+                video.src = '';
+            }, 1000);
         }
 
         // Inicializar usuario
